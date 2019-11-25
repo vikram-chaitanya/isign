@@ -6,7 +6,6 @@ import logging
 from memoizer import memoize
 import os
 import plistlib
-from plistlib import PlistWriter
 import re
 
 OUTPUT_DIRECTORY = '_CodeSignature'
@@ -16,24 +15,6 @@ TEMPLATE_FILENAME = 'code_resources_template.xml'
 HASH_BLOCKSIZE = 65536
 
 log = logging.getLogger(__name__)
-
-
-# have to monkey patch Plist, in order to make the values
-# look the same - no .0 for floats
-# Apple's plist utils work like this:
-#   1234.5 --->  <real>1234.5</real>
-#   1234.0 --->  <real>1234</real>
-def writeValue(self, value):
-    if isinstance(value, float):
-        rep = repr(value)
-        if value.is_integer():
-            rep = repr(int(value))
-        self.simpleElement("real", rep)
-    else:
-        self.oldWriteValue(value)
-
-PlistWriter.oldWriteValue = PlistWriter.writeValue
-PlistWriter.writeValue = writeValue
 
 
 # Simple reimplementation of ResourceBuilder, in the Apple Open Source

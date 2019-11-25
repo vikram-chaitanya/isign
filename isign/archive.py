@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*- 
+# -*- coding: utf-8 -*-
 """ Represents an app archive. This is an app at rest, whether it's a naked
     app bundle in a directory, or a zipped app bundle, or an IPA. We have a
     common interface to extract these apps to a temp file, then resign them,
@@ -6,8 +6,6 @@
 
 import abc
 import biplist
-from bundle import App, Bundle, is_info_plist_native
-from exceptions import MissingHelpers, NotSignable, NotMatched
 from distutils import spawn
 import logging
 import os
@@ -15,13 +13,13 @@ from os.path import abspath, dirname, exists, isdir, isfile, join, normpath
 import tempfile
 import re
 from subprocess import call
-
-
-from signer import Signer
 import shutil
 import zipfile
 
-import utils
+from .bundle import App, Bundle, is_info_plist_native
+from .exceptions import MissingHelpers, NotSignable, NotMatched
+from .signer import Signer
+
 
 REMOVE_WATCHKIT = True
 helper_paths = {}

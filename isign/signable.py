@@ -7,19 +7,19 @@
 #
 
 from abc import ABCMeta
-from codesig import (Codesig,
-                     EntitlementsSlot,
-                     ResourceDirSlot,
-                     RequirementsSlot,
-                     ApplicationSlot,
-                     InfoSlot)
 import logging
-import macho
-from makesig import make_signature
 import os
 import tempfile
-import utils
 import shutil
+
+from . import macho, utils
+from .codesig import (Codesig,
+                      EntitlementsSlot,
+                      ResourceDirSlot,
+                      RequirementsSlot,
+                      ApplicationSlot,
+                      InfoSlot)
+from .makesig import make_signature
 
 log = logging.getLogger(__name__)
 

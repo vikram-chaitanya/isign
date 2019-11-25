@@ -5,7 +5,6 @@ import hashlib
 import logging
 import macho_cs
 
-import utils
 
 log = logging.getLogger(__name__)
 

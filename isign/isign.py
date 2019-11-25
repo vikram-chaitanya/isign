@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-import archive
-# import makesig
-import exceptions
+
 import os
 from os.path import dirname, exists, join, realpath
+
+from . import exceptions, archive
 
 # this comes with the repo
 PACKAGE_ROOT = dirname(realpath(__file__))
@@ -24,7 +24,7 @@ def get_credential_paths(directory, file_names=DEFAULT_CREDENTIAL_FILE_NAMES):
     """ Given a directory, return dict of paths to standard
         credential files """
     paths = {}
-    for (k, file_name) in file_names.iteritems():
+    for (k, file_name) in file_names.items():
         paths[k] = join(directory, file_name)
     return paths
 
