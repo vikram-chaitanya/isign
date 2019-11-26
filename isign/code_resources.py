@@ -38,7 +38,7 @@ class PathRule(object):
                 # if it was true, this file is required;
                 # do nothing
             elif isinstance(properties, dict):
-                for key, value in properties.iteritems():
+                for key, value in properties.items():
                     if key == 'optional' and value is True:
                         self.flags |= PathRule.OPTIONAL
                     elif key == 'omit' and value is True:
@@ -79,7 +79,7 @@ class ResourceBuilder(object):
         self.rules = []
         self.respect_omissions = respect_omissions
         self.include_sha256 = include_sha256
-        for pattern, properties in rules_data.iteritems():
+        for pattern, properties in rules_data.items():
             self.rules.append(PathRule(pattern, properties))
 
     def find_rule(self, path):
@@ -168,8 +168,8 @@ def get_template():
     """
     current_dir = os.path.dirname(os.path.abspath(__file__))
     template_path = os.path.join(current_dir, TEMPLATE_FILENAME)
-    fh = open(template_path, 'r')
-    return plistlib.readPlist(fh)
+    with open(template_path, 'rb') as fh:
+        return plistlib.load(fh)
 
 
 @memoize
@@ -202,8 +202,8 @@ def write_plist(target_dir, plist):
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
     output_path = os.path.join(output_dir, OUTPUT_FILENAME)
-    fh = open(output_path, 'w')
-    plistlib.writePlist(plist, fh)
+    with open(output_path, 'wb') as fh:
+        plistlib.dump(plist, fh)
     return output_path
 
 

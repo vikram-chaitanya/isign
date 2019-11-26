@@ -11,9 +11,7 @@ import construct
 import hashlib
 import logging
 import math
-import macho
-import macho_cs
-import utils
+from . import macho, macho_cs, utils
 
 
 log = logging.getLogger(__name__)
@@ -108,7 +106,7 @@ def make_basic_codesig(entitlements_file, drs, code_limit, hashes, signer, ident
     common_name = signer.get_common_name()
     log.debug("ident: {}".format(ident))
     log.debug("codelimit: {}".format(code_limit))
-    teamID = signer._get_team_id() + '\x00'
+    teamID = signer._get_team_id() + b'\x00'
     empty_hash = "\x00" * 20
     cd = construct.Container(cd_start=None,
                              version=0x20200,
@@ -172,10 +170,10 @@ def make_basic_codesig(entitlements_file, drs, code_limit, hashes, signer, ident
                                                                     data="",
                                                                     bytes="",
                                                                     ))
-    indicies = filter(None, [cd_index,
+    indicies = list(filter(None, [cd_index,
                 requirements_index,
                 entitlements_index,
-                sigwrapper_index])
+                sigwrapper_index]))
 
     superblob = construct.Container(
         sb_start=0,

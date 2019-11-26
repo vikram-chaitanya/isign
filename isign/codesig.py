@@ -3,7 +3,7 @@ from abc import ABCMeta
 import construct
 import hashlib
 import logging
-import macho_cs
+from . import macho_cs
 
 
 log = logging.getLogger(__name__)

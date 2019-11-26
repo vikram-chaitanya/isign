@@ -20,8 +20,8 @@ from .exceptions import ImproperCredentials, MissingCredentials, OpenSslFailure
 
 OPENSSL = os.getenv('OPENSSL', spawn.find_executable('openssl'))
 # modern OpenSSL versions look like '0.9.8zd'. Use a regex to parse
-OPENSSL_VERSION_RE = re.compile(r'(\d+).(\d+).(\d+)(\w*)')
-MINIMUM_OPENSSL_VERSION = '1.0.1'
+OPENSSL_VERSION_RE = re.compile(rb'(\d+).(\d+).(\d+)(\w*)')
+MINIMUM_OPENSSL_VERSION = b'1.0.1'
 
 log = logging.getLogger(__name__)
 
@@ -59,7 +59,7 @@ def openssl_command(args, data=None, expect_err=False):
 def get_installed_openssl_version():
     version_line = openssl_command(['version'])
     # e.g. 'OpenSSL 0.9.8zd 8 Jan 2015'
-    return re.split(r'\s+', version_line)[1]
+    return re.split(rb'\s+', version_line)[1]
 
 
 def is_openssl_version_ok(version, minimum):
@@ -139,7 +139,7 @@ class Signer(object):
         with open(self.signer_cert_file, 'rb') as fh:
             cert = crypto.load_certificate(crypto.FILETYPE_PEM, fh.read())
         subject = cert.get_subject()
-        return dict(subject.get_components())['CN']
+        return dict(subject.get_components())[b'CN']
 
     def _log_parsed_asn1(self, data):
         cmd = ['asn1parse', '-inform', 'DER' '-i']
@@ -156,7 +156,7 @@ class Signer(object):
             '-noout'
         ]
         certificate_info = openssl_command(cmd)
-        subject_with_ou_match = re.compile(r'\s+Subject:.*OU=(\w+)')
+        subject_with_ou_match = re.compile(rb'\s+Subject:.*OU=(\w+)')
         for line in certificate_info.splitlines():
             match = subject_with_ou_match.match(line)
             if match is not None:
